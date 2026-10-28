@@ -1,0 +1,18 @@
+{
+  "name": "cartitaz-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cartitaz marketplace: public storefront API + private, server-authenticated admin dashboard",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "create-admin": "node scripts/create-admin.js",
+    "seed-demo": "node scripts/seed-demo.js",
+    "test": "node test/run.js",
+    "backup": "node scripts/backup.js",
+    "test:ui": "python3 test/ui_test.py && python3 test/shop_test.py"
+  }
+}

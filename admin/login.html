@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="admin-base" content="%ADMIN%">
+<title>Sign in · Cartitaz</title>
+<link rel="stylesheet" href="%ADMIN%/assets/login.css">
+</head>
+<body>
+<main class="card" aria-labelledby="t">
+  <div class="mark" aria-hidden="true">C</div>
+  <h1 id="t">Cartitaz control center</h1>
+  <p class="sub">Authorized staff only. All sign-ins are logged.</p>
+  <form id="f" autocomplete="on" novalidate>
+    <label>Username<input id="u" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+    <label>Password<input id="p" name="password" type="password" autocomplete="current-password" required></label>
+    <label id="totpRow" hidden>Authentication code or recovery code<input id="c" name="totp" autocomplete="one-time-code" autocapitalize="characters" spellcheck="false" maxlength="20" placeholder="6-digit code, or a recovery code"></label>
+    <div id="err" class="err" role="alert"></div>
+    <button id="go" type="submit">Sign in</button>
+  </form>
+</main>
+<script src="%ADMIN%/assets/login.js"></script>
+</body>
+</html>
