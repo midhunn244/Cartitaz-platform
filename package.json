@@ -7,6 +7,9 @@
   "engines": {
     "node": ">=22.13"
   },
+  "dependencies": {
+    "mongodb": "^6.20.0"
+  },
   "scripts": {
     "start": "node src/server.js",
     "create-admin": "node scripts/create-admin.js",
@@ -15,4 +18,5 @@
     "backup": "node scripts/backup.js",
     "test:ui": "python3 test/ui_test.py && python3 test/shop_test.py"
   }
+  
 }
