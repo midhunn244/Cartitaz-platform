@@ -18,57 +18,57 @@ async function connect() {
       throw new Error('MONGODB_URI environment variable is not set');
     }
 
-    client = new MongoClient(uri, {
+    const nextClient = new MongoClient(uri, {
       serverSelectionTimeoutMS: 10000,
     });
 
     try {
-      await client.connect();
+      await nextClient.connect();
 
-      database = client.db(
+      const db = nextClient.db(
         process.env.MONGODB_DB_NAME || 'cartitaz'
       );
 
-      await database.command({ ping: 1 });
+      await db.command({ ping: 1 });
 
-      // Indexes for frequently accessed records.
       await Promise.all([
-        database.collection('admins').createIndex(
+        db.collection('admins').createIndex(
           { username: 1 },
           { unique: true }
         ),
-        database.collection('sessions').createIndex(
+        db.collection('sessions').createIndex(
           { id: 1 },
           { unique: true }
         ),
-        database.collection('sessions').createIndex(
+        db.collection('sessions').createIndex(
           { expires_at: 1 },
           { expireAfterSeconds: 0 }
         ),
-        database.collection('products').createIndex(
+        db.collection('products').createIndex(
           { slug: 1 },
-          { unique: true }
+          { unique: true, sparse: true }
         ),
-        database.collection('categories').createIndex(
+        db.collection('categories').createIndex(
           { slug: 1 },
-          { unique: true }
+          { unique: true, sparse: true }
         ),
-        database.collection('orders').createIndex(
+        db.collection('orders').createIndex(
           { code: 1 },
           { unique: true }
         ),
-        database.collection('orders').createIndex(
+        db.collection('orders').createIndex(
           { created_at: -1 }
         ),
       ]);
 
-      console.log('[mongo] MongoDB Atlas connected; indexes ready.');
+      client = nextClient;
+      database = db;
+
+      console.log('[mongo] MongoDB connected; indexes ready.');
 
       return database;
     } catch (error) {
-      await client.close().catch(() => {});
-      client = undefined;
-      database = undefined;
+      await nextClient.close().catch(() => {});
       throw error;
     }
   })();
@@ -81,10 +81,12 @@ async function connect() {
 }
 
 async function close() {
-  if (client) {
-    const currentClient = client;
-    client = undefined;
-    database = undefined;
+  const currentClient = client;
+
+  client = undefined;
+  database = undefined;
+
+  if (currentClient) {
     await currentClient.close();
   }
 }
