@@ -1,8 +1,11 @@
 'use strict';
+
 const http = require('http');
 const { load } = require('./config');
 const { createApp } = require('./app');
 const bootstrap = require('./bootstrap');
+const mongo = require('./mongo');
+
 
 function start(env = process.env) {
   const cfg = load(env);
