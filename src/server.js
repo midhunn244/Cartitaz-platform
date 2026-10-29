@@ -1,3 +1,4 @@
+
 'use strict';
 
 const http = require('http');
@@ -6,9 +7,6 @@ const { createApp } = require('./app');
 const bootstrap = require('./bootstrap');
 const mongo = require('./mongo');
 
-
-function start(env = process.env) {
-  
 async function start(env = process.env) {
   const cfg = load(env);
 
@@ -33,7 +31,7 @@ async function start(env = process.env) {
     .catch((e) => console.error('[bootstrap] failed:', e.message))
     .then(() => server.listen(cfg.port, cfg.host, () => {
       console.log(
-        `Cartitaz running on http://${cfg.host}:${cfg.port}  (admin: ${cfg.adminPath}, env: ${cfg.prod ? 'production' : 'development'})`
+        `Cartitaz running on http://${cfg.host}:${cfg.port} (admin: ${cfg.adminPath}, env: ${cfg.prod ? 'production' : 'development'})`
       );
 
       if (!app.db.get('SELECT 1 x FROM admins LIMIT 1')) {
@@ -52,6 +50,6 @@ async function start(env = process.env) {
   return { server, app, cfg };
 }
 
-}
 if (require.main === module) start();
+
 module.exports = { start };
