@@ -2,6 +2,7 @@ FROM node:22-slim
 ENV NODE_ENV=production DATA_DIR=/data PORT=3000
 WORKDIR /app
 COPY package.json ./
+RUN npm install --omit=dev
 COPY src ./src
 COPY admin ./admin
 COPY public ./public
